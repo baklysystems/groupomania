@@ -1,0 +1,10 @@
+//is a special configuration file. It lets you specify the following options that you would usually pass as arguments to CLI:
+
+const path = require('path')
+
+module.exports = {
+  config: path.resolve('config', 'database.json'),
+  'models-path': path.resolve('src', 'models'),
+  'seeders-path': path.resolve('db', 'seeders'),
+  'migrations-path': path.resolve('db', 'migrations')
+}
