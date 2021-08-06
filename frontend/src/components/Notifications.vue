@@ -20,7 +20,7 @@
       "
     >
       <b-card class="border-0" @click="toggleActions">
-        <div v-bind:key="notification in notificationsList"><!--<div v-for="notification in notificationsList">-->
+        <div v-for="notification in notificationsList" :key="notification.id"><!--<div v-for="notification in notificationsList">-->
           <router-link
             :to="{ name: 'OnePost', params: { postId: notification.postId } }"
             @click.native="deleteNotification(notification)"

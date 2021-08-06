@@ -2,19 +2,19 @@
   <div>
     <div class="d-flex align-items-center position-relative">
       <router-link
-        :to="{ name: 'UserProfile', params: { userId: comment.User.id } }"
+        :to="{ name: 'UserProfile', params: { userId: comment.UserId } }"
         ><div class="d-flex text-center mr-2 mt-2">
           <ProfileImage
-            :src="comment.User.imageUrl"
+            :src="comment.UserImage"
             customClass="comment-profile-picture"
             divCustomClass="div-comment-picture"
           /></div
       ></router-link>
       <div class="comment-box">
         <router-link
-          :to="{ name: 'UserProfile', params: { userId: comment.User.id } }"
+          :to="{ name: 'UserProfile', params: { userId: comment.senderUserId } }"
           ><p class="mb-0 font-weight-bold">
-            {{ comment.User.firstName }} {{ comment.User.lastName }}
+            {{ comment.UserFirstName }} {{ comment.UserLastName }}
           </p></router-link
         >
         <input
@@ -34,7 +34,7 @@
         <EditButton
           customClass="comment-button"
           classCollapse="comment-btn-collapsed"
-          :isCreator="comment.User.id == userData.id"
+          :isCreator="comment.senderUserId == userData.id"
           :isAdmin="userData.admin"
           @clickedEditButton="startEditing"
           @onDelete="onDelete"

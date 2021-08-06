@@ -41,7 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       }</b> commented on your post ${post.readableCreatedAt()}`,
       recipientUserId: post.userId,
       postId: post.id,
-      senderUserId: user.id
+      senderUserId: user.id,
+      userImage:user.imageUrl,
+      userFirstName: user.firstName,
+      userLastName: user.lastName
     })
   })
 
