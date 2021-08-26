@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-items-center position-relative">
       <router-link
-        :to="{ name: 'UserProfile', params: { userId: comment.UserId } }"
+        :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
         ><div class="d-flex text-center mr-2 mt-2">
           <ProfileImage
             :src="comment.UserImage"
@@ -12,9 +12,9 @@
       ></router-link>
       <div class="comment-box">
         <router-link
-          :to="{ name: 'UserProfile', params: { userId: comment.senderUserId } }"
+          :to="{ name: 'UserProfile', params: { userId: this.post.senderUserId } }"
           ><p class="mb-0 font-weight-bold">
-            {{ comment.UserFirstName }} {{ comment.UserLastName }}
+            {{ this.post.firstName }} {{ this.post.lastName }}
           </p></router-link
         >
         <input

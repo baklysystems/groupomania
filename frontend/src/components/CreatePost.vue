@@ -6,6 +6,7 @@
         v-model="content"
         :onFormSubmit="didSubmitForm"
         :isCreating="true"
+        
       />
     </b-form>
   </div>

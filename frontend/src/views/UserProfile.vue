@@ -1,26 +1,32 @@
 <template>
   <div>
     <Menu />
-
+  <router-link
+            :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
+          ></router-link>
     <b-row class="text-center justify-content-center">
       <div class="d-flex align-items-center flex-column">
         <ProfileImage
-          :src="userProfile.imageUrl"
+          :src="this.post.imageUrl"
+          params: { userId: this.post.userId } 
           customClass="profile-main-picture"
           divCustomClass="div-user-profile-picture"
         />
+          
         <p class="user-name">
-          {{ userProfile.firstName }} {{ userProfile.lastName }}
+          {{ this.post.firstName }} {{ this.post.lastName }}
         </p>
 
         <AdminDeleteAccount
-          v-if="userData.admin && !userProfile.deleted"
+          v-if="userData.admin && !userProfile.deleted" 
+          params: { userId: userProfile.userId } 
           :userProfile="userProfile"
         />
       </div>
     </b-row>
 
     <PostsList :userId="this.$route.params.userId" />
+    
   </div>
 </template>
 
@@ -33,6 +39,7 @@ import AdminDeleteAccount from '../components/AdminDeleteAccount'
 
 export default {
   name: 'UserProfile',
+  params: { userId: userProfile.userId },
   components: {
     ProfileImage,
     PostsList,

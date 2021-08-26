@@ -7,23 +7,27 @@
         <div class="d-flex mr-3">
           <router-link
             :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
-          >
-            <!--<ProfileImage
-              :src="this.post.User.firstName"
-              customClass="post-profile-picture"
-              divCustomClass="div-post-picture"
-          />--></router-link>
+
+          ></router-link>
+          {{ JSON.stringify(this.post) }}<!--
+              <ProfileImage
+                @click="triggerInput"
+                :src="url || userData.imageUrl"
+                customClass="profile-main-picture"
+                divCustomClass="div-main-picture"
+              />-->
         </div>
         <div class="text-left">
           <router-link
             :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
-            ><p class="font-weight-bold mb-0">
-              <!--{{ post.User.firstName }} {{ post.User.lastName }} the props and variables where is the object-->
-            </p></router-link
+            
+          ><p class="user-name font-weight-bold mb-0">
+          <!--{{ this.post.firstName }} {{ this.post.lastName }}-->
+        </p></router-link
           >
           <p class="text-secondary">
             {{
-              moment(post.createdAt)
+              moment(this.post.createdAt)
                 .locale('fr')
                 .format('LL')
             }}

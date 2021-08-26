@@ -77,11 +77,11 @@ export default {
       message: ''
     }
     
-  },
+  },/*
   async mounted () {
     setTimeout(() => this.fetchNotifications(), 100)
     this.interval = setInterval(() => this.fetchNotifications(), 10000)
-  },
+  },*/
   destroyed () {
     clearInterval(this.interval)
   },
@@ -89,7 +89,7 @@ export default {
     toggleActions () {
       this.areActionsVisible = !this.areActionsVisible
     },
-    async fetchNotifications () {
+    async getNotificationsOfOneUser () {
       const res = await apiClient.get(`api/notifications`)
       this.notificationsList = res.notification
     },

@@ -15,13 +15,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Comments.init(
-    {
+    { userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
       content: {
         type: DataTypes.TEXT,
         allowNull: false
       },
-      userId: DataTypes.INTEGER
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE
+      }
     },
     {
       sequelize,
@@ -33,6 +40,8 @@ module.exports = (sequelize, DataTypes) => {
     const post = await comment.getPost()
     const user = await comment.getUser()
 
+
+
     if (user.id == post.userId) return
 
     const notification = await sequelize.models.Notification.create({
@@ -41,10 +50,10 @@ module.exports = (sequelize, DataTypes) => {
       }</b> commented on your post ${post.readableCreatedAt()}`,
       recipientUserId: post.userId,
       postId: post.id,
-      senderUserId: user.id,
+      senderUserId: user.userId,
       userImage:user.imageUrl,
-      userFirstName: user.firstName,
-      userLastName: user.lastName
+      firstName: user.firstName,
+      lastName: user.lastName
     })
   })
 

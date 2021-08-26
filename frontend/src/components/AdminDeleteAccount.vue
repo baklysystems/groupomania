@@ -14,6 +14,7 @@ export default {
     DeleteAccountButton
   },
   props: ['userProfile'],
+  params: { userId: this.post.userId },
 
   methods: {
     async confirmDeletion () {

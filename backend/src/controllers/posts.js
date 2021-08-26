@@ -16,7 +16,7 @@ exports.createPost = async (req, res, next) => {
   try {
     let post = await Post.create({
       ...postObject,
-      userId: req.user.id
+      userId: req.user.userId
     })
 
     post = await Post.findOne({ where: { id: post.id }, include: db.Users })
@@ -48,7 +48,8 @@ exports.getAllPosts = (req, res, next) => {
   const options = {
     include: [
       {
-        model: db.Users
+        model: db.Users, 
+        include: [db.Users]
       }
     ],
     limit,

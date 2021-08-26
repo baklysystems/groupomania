@@ -4,6 +4,7 @@ const router = express.Router()
 const postsCtrl = require('../controllers/posts')
 const commentsCtrl = require('../controllers/comments')
 const likesCtrl = require('../controllers/likes')
+const notificationsCtrl = require('../controllers/notifications')
 
 const auth = require('../middleware/auth')
 const multer = require('../middleware/multer-config')
@@ -23,5 +24,8 @@ router.delete('/:postId/comments/:id', auth, commentsCtrl.deleteComment)
 router.post('/:postId/likes', auth, likesCtrl.likeOnePost)
 router.get('/:postId/like', auth, likesCtrl.getLikeOnOnePost)
 router.get('/:postId/likes', auth, likesCtrl.getAllLikesOfOnePost)
+
+router.get('/notifications', auth, notificationsCtrl.getNotificationsOfOneUser)
+router.delete('/notifications/:id', auth, notificationsCtrl.deleteNotification)
 
 module.exports = router

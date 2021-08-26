@@ -121,9 +121,13 @@ export default {
         body = formData
       }
       return apiClient
-        .post('api/posts/', body, { isFormData })
+        .post('api/posts/', body)
         .then(response => {
+          console.log("Test");
           commit('CREATE_POST', response.post)
+        })
+        .catch((error) => {
+          commit('ERROR_MESSAGE', error)
         })
     }
   }

@@ -3,7 +3,7 @@ const { Notification } = db.sequelize.models
 
 exports.getNotificationsOfOneUser = (req, res, next) => {
   const options = {
-    where: { recipientUserId: req.params.id },
+    where: { recipientUserId: req.params.id }, 
     include: [{ model: db.Users, as: 'Sender' }],
     order: [['createdAt', 'DESC']]
   }

@@ -6,7 +6,7 @@ exports.createComment = async (req, res, next) => {
     let comment = await Comments.create({
       ...req.body,
       postId: req.params.postId,
-      userId: req.user.id
+      userId: req.user.userId
     })
 
     comment = await Comments.findOne({
@@ -48,7 +48,7 @@ exports.getAllComments = (req, res, next) => {
 
 exports.modifyComment = (req, res, next) => {
   Comments.findOne({
-    where: { id: req.params.id, userId: req.user.id },
+    where: { id: req.params.id, userId: req.user.userId },
     include: db.Users
   }).then(comment => {
     if (!comment) {
