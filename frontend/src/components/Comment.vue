@@ -14,7 +14,7 @@
         <router-link
           :to="{ name: 'UserProfile', params: { userId: this.post.senderUserId } }"
           ><p class="mb-0 font-weight-bold">
-            {{ this.post.firstName }} {{ this.post.lastName }}
+          {{comment.User.username}}
           </p></router-link
         >
         <input

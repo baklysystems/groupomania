@@ -9,20 +9,20 @@
             :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
 
           ></router-link>
-          {{ JSON.stringify(this.post) }}<!--
-              <ProfileImage
-                @click="triggerInput"
-                :src="url || userData.imageUrl"
-                customClass="profile-main-picture"
-                divCustomClass="div-main-picture"
-              />-->
+
+          <ProfileImage
+          :src="post.User.imageUrl"
+          customClass="post-profile-picture"
+          divCustomClass="div-post-picture"
+          />
+
         </div>
         <div class="text-left">
           <router-link
             :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
             
           ><p class="user-name font-weight-bold mb-0">
-          <!--{{ this.post.firstName }} {{ this.post.lastName }}-->
+          {{ this.post.User.username }}
         </p></router-link
           >
           <p class="text-secondary">
@@ -131,7 +131,7 @@ export default {
   },
   props: ['post'],
   async mounted () {
-    const res = await apiClient.get(`api/posts/${this.post.id}/like`)
+    const res = await apiClient.get(`api/posts/${this.post.id}/likes`)
     this.likesThisPost = res.like
     console.log(this.post);
   },

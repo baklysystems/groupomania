@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const { User } = db.sequelize.models
 
 const newToken = user => {
-  token = jwt.sign({ userId: user.id }, 'RANDOM_TOKEN_SECRET', {
+  token = jwt.sign({ userId: user.userId }, 'RANDOM_TOKEN_SECRET', {
     expiresIn: '24h'
   })
   return { user, token }
@@ -55,7 +55,7 @@ exports.editUser = (req, res, next) => {
 }
 
 exports.getOneUser = (req, res, next) => {
-  User.findOne({ where: { id: req.params.id } })
+  User.findOne({ where: { userId: req.params.userId } })
     .then(user => res.status(200).json({ user }))
     .catch(error => res.status(404).json({ error }))
 }
@@ -89,7 +89,7 @@ exports.getAllUsers = (req, res, next) => {
 exports.deleteUserAccount = async (req, res, next) => {
   try {
     const user = req.user.admin
-      ? await User.findOne({ where: { id: req.params.id } })
+      ? await User.findOne({ where: { userId: req.params.userId } })
       : req.user
     await user.softDestroy()
     res.status(200).json({ message: 'Account deleted.' })
