@@ -11,7 +11,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate (models) {
-      User.hasMany(models.Post, { foreignKey: 'userId' })
+      User.hasMany(models.Post, { foreignKey: 'userId',sourceKey:'userId' })
     }
 
     softDestroy () {
@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        primaryKey: true,
+        autoIncrement: true
       },
       username: {
         type: DataTypes.STRING,
@@ -59,12 +60,12 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           ensurePasswordIsStrongEnough
         }
-      }/*,
+      },
       imageUrl: DataTypes.STRING,
       deleted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-      }*/,
+      },
       admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
@@ -78,11 +79,11 @@ module.exports = (sequelize, DataTypes) => {
 
   addAuthenticationOn(User)
 
-  /*User.afterUpdate(async user => {
+  User.afterUpdate(async user => {
     if (user.dataValues.imageUrl !== user._previousDataValues.imageUrl) {
       await deleteFile(user._previousDataValues.imageUrl)
     }
-  })*/
+  })
 
   return User
 }

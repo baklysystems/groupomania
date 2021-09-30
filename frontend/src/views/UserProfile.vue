@@ -7,10 +7,9 @@
     <b-row class="text-center justify-content-center">
       <div class="d-flex align-items-center flex-column">
         <ProfileImage
-          :src="this.post.imageUrl"
-          params: { userId: this.post.userId } 
-          customClass="profile-main-picture"
-          divCustomClass="div-user-profile-picture"
+          :src="post.User.imageUrl"
+          customClass="post-profile-picture"
+          divCustomClass="div-post-picture"
         />
           
         <p class="user-name">

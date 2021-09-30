@@ -34,7 +34,30 @@ export default {
     ...mapActions(['createPost', 'displayNotification']),
 
     onFileSelected (file) {
+      if (
       this.selectedFile = file
+        ) {
+          apiClient
+            .post('api/auth/posts', this.file)
+            .then(data => {
+            if (!data.token) {
+              this.errorMessage = data.error.errors[0].message
+            } else {
+              /*localStorage.setItem('userToken', data.token)
+              localStorage.setItem('userData', JSON.stringify(data.user))*/
+              router.push({ name: 'Posts' })
+            }
+          })
+           .catch(error => {
+            if (error.error) {
+              return (this.errorMessage = error.error.errors[0].message)
+            }
+
+            this.errorMessage = 'Uploading issue'
+            })
+      } else {
+        this.errorMessage = 'Please upload text or an image'
+      }
     },
 
     async onSubmit (event) {
@@ -51,8 +74,8 @@ export default {
       this.content = ''
       this.selectedFile = null
       this.didSubmitForm = !this.didSubmitForm
-    }
-  }
+    } 
+  } 
 }
 </script>
 

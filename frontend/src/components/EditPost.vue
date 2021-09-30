@@ -19,7 +19,7 @@
       >
         <b-form>
           <PostForm
-            :imgUrl="post.imageUrl"
+            :imageUrl="post.imageUrl"
             @onFileSelected="onFileSelected"
             v-model="content"
           />

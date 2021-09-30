@@ -88,11 +88,15 @@ export default {
   components: {
     ProfileImage
   },
-  props: ['value', 'imgUrl', 'onFormSubmit', 'isCreating'],
+  props: ['value', 'imageUrl', 'onFormSubmit', 'isCreating'],
   data () {
     return {
       userData: JSON.parse(localStorage.getItem('userData')),
-      url: this.imgUrl
+      url: this.imageUrl,
+      input: {
+        content: '',
+        imageUrl: ''
+      }
     }
   },
   watch: {

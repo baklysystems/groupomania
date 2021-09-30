@@ -1,8 +1,11 @@
+const fs = require('fs')
+
 const db = require('../models')
-const { Comments } = db.sequelize.models
+const { Comments,User } = db.sequelize.models
 
 exports.createComment = async (req, res, next) => {
   try {
+    console.log(req.user);
     let comment = await Comments.create({
       ...req.body,
       postId: req.params.postId,
@@ -11,7 +14,7 @@ exports.createComment = async (req, res, next) => {
 
     comment = await Comments.findOne({
       where: { id: comment.id },
-      include: db.Users
+      include: User
     })
 
     res.status(201).json({ comment })
@@ -30,7 +33,7 @@ exports.getOneComment = (req, res, next) => {
 exports.getAllComments = (req, res, next) => {
   const options = {
     where: { postId: req.params.postId },
-    include: db.Users,
+    include: User,
     order: [['createdAt', 'ASC']]
   }
 
@@ -49,7 +52,7 @@ exports.getAllComments = (req, res, next) => {
 exports.modifyComment = (req, res, next) => {
   Comments.findOne({
     where: { id: req.params.id, userId: req.user.userId },
-    include: db.Users
+    include: User
   }).then(comment => {
     if (!comment) {
       res.status(400).json({ error: "You have no authorization!" })
@@ -67,7 +70,7 @@ exports.deleteComment = async (req, res, next) => {
   }
 
   if (!req.user.admin) {
-    where.userId = req.user.id
+    where.userId = req.user.userId
   }
 
   Comments.findOne({ where })
