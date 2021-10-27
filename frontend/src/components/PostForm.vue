@@ -72,8 +72,11 @@
           ref="fileInput"
           class="d-none"
           type="file"
-          @change="onFileSelected"
-        />
+          @change="onFileSelected" 
+        /> <!-- type= file for visual 
+        @change for whenever the user adds a new file 
+        onFileSelected is a method typically used with @change
+        missing argument, or make it argumentless and fetch from function -->
       </div>
     </b-form-group>
   </div>
@@ -107,6 +110,7 @@ export default {
   methods: {
     onFileSelected (event) {
       this.url = URL.createObjectURL(event.target.files[0])
+      //console.log (event.target.files[0]);
       this.$emit('onFileSelected', event.target.files[0])
     },
     updateValue (value) {

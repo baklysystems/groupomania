@@ -1,14 +1,13 @@
 <template>
-  <div>
+  <div> <!-- v-model updates automatically, so content gets uploaded automatically -->
     <b-form @submit="onSubmit">
       <PostForm
-        @onFileSelected="onFileSelected"
+        @onFileSelected="onFileSelected" 
         v-model="content"
         :onFormSubmit="didSubmitForm"
         :isCreating="true"
-        
-      />
-    </b-form>
+      /> 
+    </b-form> 
   </div>
 </template>
 
@@ -25,39 +24,53 @@ export default {
   props: {},
   data () {
     return {
-      content: '',
+      content: '', //variables in data get displayed in {{ }} or "" above
       selectedFile: null,
       didSubmitForm: false
     }
   },
   methods: {
-    ...mapActions(['createPost', 'displayNotification']),
+    ...mapActions(['createPost', 'displayNotification']), //...let's code result in having an array with duplicate elements
 
-    onFileSelected (file) {
-      if (
-      this.selectedFile = file
-        ) {
-          apiClient
-            .post('api/auth/posts', this.file)
-            .then(data => {
-            if (!data.token) {
-              this.errorMessage = data.error.errors[0].message
-            } else {
-              /*localStorage.setItem('userToken', data.token)
-              localStorage.setItem('userData', JSON.stringify(data.user))*/
-              router.push({ name: 'Posts' })
-            }
-          })
-           .catch(error => {
-            if (error.error) {
-              return (this.errorMessage = error.error.errors[0].message)
-            }
 
-            this.errorMessage = 'Uploading issue'
+    onFileSelected (file) { //define new method should have an argument called file
+      console.log("Hello");
+      console.log(file);
+      let body = this.input
+      
+      const isFormData = !!this.selectedFile
+      this.selectedFile = file //single equal assignment , == comparison 
+        
+        if (isFormData) {
+          const formData = new FormData()
+          formData.append('image', this.file)
+          formData.append('user', JSON.stringify(body))
+          body = formData
+        }
+          apiClient.post('api/posts', file, {
+                    'Content-Type': 'multipart/form-data'
+            }).then(res => {
+              localStorage.setItem('userData', JSON.stringify(res.user))
+              this.userData = res.user
+              window.location.reload()
             })
-      } else {
-        this.errorMessage = 'Please upload text or an image'
-      }
+            /*.then(data => {
+              if (!data.token) {
+                this.errorMessage = data.error.errors[0].message
+              } else {
+                /*localStorage.setItem('userToken', data.token)
+                localStorage.setItem('userData', JSON.stringify(data.user))
+                //needs to collect
+                router.push({ name: 'Posts' })
+              }
+            }*/
+            .catch(error => {
+              if (error.error) {
+                return (this.errorMessage = error.error.errors[0].message)
+              }
+
+              this.errorMessage = 'Uploading issue'
+            })
     },
 
     async onSubmit (event) {
@@ -79,7 +92,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss"> 
 .custom-file-label {
   text-align: left;
 }

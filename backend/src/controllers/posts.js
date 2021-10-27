@@ -2,61 +2,35 @@ const path = require("path");
 const fs = require("fs");
 
 const db = require('../models')
-const { Post,User, Comments } = db.sequelize.models
+const { Post,User,Comments } = db.sequelize.models
 
 exports.createPost = async (req, res, next) => {
-  /*const url = req.protocol + '://' + req.get('host');
-  req.post = JSON.parse(req.post);
-  const post = new Post ({ //set up object with its type
-      content: req.content,
-      imageUrl: url + '/images/' + req.file.filename,
-  });
-  post.save().then(
-    () => {
-      res.status(201).json({
-        message: 'Post saved successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );*/
-
   let postObject = req.body
 
   console.log(req);
   if (req.file) {
     console.log("Test 2");
     postObject = JSON.parse(req.body.post)
-    
-    /*
-    const post = new Post ({ //set up object with its type
-          content: req.content,
-          imageUrl: url + '/images/' + req.file.filename,
-      });
-    */ 
 
     postObject.imageUrl = `${req.protocol}://${req.get('host')}/public/${
       req.file.filename
     }`
-    
   }
 
   try {
     console.log("Test 3");
+    console.log(postObject);
     let post = await Post.create({
-      ...postObject,
+      ...postObject, //...merges both arrays
       userId: req.user.userId
-    })
+    }) 
+    console.log(post);
     
     post = await Post.findOne({ where: { id: post.id }, include: [{model:User }]})
 
     res.status(201).json({ post })
   } catch (error) {
-    console.log(error)
+    //console.log(error)
     console.log("Test 4");
     res.status(400).json({ error })
   }

@@ -7,8 +7,8 @@ class ApiClient {
 
   headers (options = {}) {
     const contentType = options.isFormData
-      ? {}
-      : {
+      ? {} //? if this is set create an empty bracket
+      : { // : else
           'Content-Type': 'application/json',
         }
 

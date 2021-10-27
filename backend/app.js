@@ -43,12 +43,7 @@ app.use(bodyParser.json())
 
 var connection =mysql.createConnection({
     //properties
-    /*host: 'db4free.net',
-    user: 'groupmania2020',
-    password: 'groupmania2020',
-    database: 'groupmania'*/
     host: '69.164.217.96',
-    //port: '3306',
     user: 'groupomania',
     password: 'groupomania',
     database: 'groupomania'
@@ -64,10 +59,6 @@ connection.connect(function(error) {
 })
 
 app.use('/public', express.static(path.join(__dirname, 'public')))
-
-//my old one app.use(express.static(__dirname + '/public/'));
-//app.use('/images/', express.static(path.join(__dirname, 'public'))); 
-
 
 app.use('/api/posts', postsRoutes)
 app.use('/api/auth', userRoutes)
