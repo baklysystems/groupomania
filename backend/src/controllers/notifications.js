@@ -3,7 +3,7 @@ const { Notification } = db.sequelize.models
 
 exports.getNotificationsOfOneUser = (req, res, next) => {
   const options = {
-    where: { recipientUserId: req.params.id }, 
+    where: { userId: req.params.userId }, 
     include: [{ model: db.Users, as: 'Sender' }],
     order: [['createdAt', 'DESC']]
   }
@@ -20,7 +20,7 @@ exports.getNotificationsOfOneUser = (req, res, next) => {
 
 exports.deleteNotification = (req, res, next) => {
   Notification.findOne({
-    where: { id: req.params.id, recipientUserId: req.user.id }
+    where: { id: req.params.id, recipientUserId: req.user.userId }
   })
     .then(notification => {
       if (!notification) {

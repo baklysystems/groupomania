@@ -5,9 +5,10 @@ class ApiClient {
     this.baseUrl = 'http://localhost:3000/'
   }
 
-  headers (options = {}) {
-    const contentType = options.isFormData
-      ? {} //? if this is set create an empty bracket
+  headers (options = {},isMultiPart=false) {
+    const contentType =isMultiPart
+      ? {
+        } //? if this is set create an empty bracket
       : { // : else
           'Content-Type': 'application/json',
         }
@@ -32,11 +33,11 @@ class ApiClient {
       .catch(() => alert("Unable to retrieve data from the API!"))
   }
 
-  post (path, body, options = {'Access-Control-Allow-Origin': '*'}) {
+  post (path, body, options = {'Access-Control-Allow-Origin': '*'},isMultiPart=false) {
     return fetch(this.baseUrl + path, {
       method: 'POST',
-      body: options.isFormData ? body : JSON.stringify(body),
-      headers: this.headers(options)
+      body: isMultiPart ? body : JSON.stringify(body),
+      headers: this.headers(options,isMultiPart)
     }).then(response => this.handleResponse(response))
   }
 
@@ -47,11 +48,11 @@ class ApiClient {
     }).then(response => this.handleResponse(response))
   }
 
-  put (path, body, options = {}) {
+  put (path, body, options = {'Access-Control-Allow-Origin': '*'},isMultiPart=false) {
     return fetch(this.baseUrl + path, {
       method: 'PUT',
-      body: options.isFormData ? body : JSON.stringify(body),
-      headers: this.headers(options)
+      body: isMultiPart ? body : JSON.stringify(body),
+      headers: this.headers(options,isMultiPart)
     }).then(response => this.handleResponse(response))
   }
 

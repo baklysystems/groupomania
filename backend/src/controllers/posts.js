@@ -6,32 +6,22 @@ const { Post,User,Comments } = db.sequelize.models
 
 exports.createPost = async (req, res, next) => {
   let postObject = req.body
-
-  console.log(req);
+ 
   if (req.file) {
-    console.log("Test 2");
     postObject = JSON.parse(req.body.post)
-
-    postObject.imageUrl = `${req.protocol}://${req.get('host')}/public/${
+    postObject.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${
       req.file.filename
     }`
   }
 
   try {
-    console.log("Test 3");
-    console.log(postObject);
     let post = await Post.create({
       ...postObject, //...merges both arrays
       userId: req.user.userId
     }) 
-    console.log(post);
-    
     post = await Post.findOne({ where: { id: post.id }, include: [{model:User }]})
-
     res.status(201).json({ post })
   } catch (error) {
-    //console.log(error)
-    console.log("Test 4");
     res.status(400).json({ error })
   }
 }

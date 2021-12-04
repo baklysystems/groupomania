@@ -40,8 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     const post = await comment.getPost()
     const user = await comment.getUser()
 
-
-
     if (user.id == post.userId) return
 
     const notification = await sequelize.models.Notification.create({

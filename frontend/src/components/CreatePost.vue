@@ -46,24 +46,13 @@ export default {
           formData.append('image', this.file)
           formData.append('user', JSON.stringify(body))
           body = formData
-        }
-          apiClient.post('api/posts', file, {
+                   apiClient.post('api/posts', formData, {
                     'Content-Type': 'multipart/form-data'
             }).then(res => {
               localStorage.setItem('userData', JSON.stringify(res.user))
               this.userData = res.user
               window.location.reload()
             })
-            /*.then(data => {
-              if (!data.token) {
-                this.errorMessage = data.error.errors[0].message
-              } else {
-                /*localStorage.setItem('userToken', data.token)
-                localStorage.setItem('userData', JSON.stringify(data.user))
-                //needs to collect
-                router.push({ name: 'Posts' })
-              }
-            }*/
             .catch(error => {
               if (error.error) {
                 return (this.errorMessage = error.error.errors[0].message)
@@ -71,6 +60,7 @@ export default {
 
               this.errorMessage = 'Uploading issue'
             })
+        }
     },
 
     async onSubmit (event) {

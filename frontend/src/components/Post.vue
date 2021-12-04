@@ -7,15 +7,12 @@
         <div class="d-flex mr-3">
           <router-link
             :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
-
-          ></router-link>
-
+          >
           <ProfileImage
-          :src="post.User.imageUrl"
-          customClass="post-profile-picture"
-          divCustomClass="div-post-picture"
-          />
-
+            :src="this.post.User.imageUrl"
+            customClass="post-profile-picture"
+            divCustomClass="div-post-picture"
+          /></router-link>
         </div>
         <div class="text-left">
           <router-link
@@ -28,14 +25,14 @@
           <p class="text-secondary">
             {{
               moment(this.post.createdAt)
-                .locale('fr')
+                .locale('en')
                 .format('LL')
             }}
           </p>
         </div>
       </div>
       <EditPost :post="post" />
-
+     
       <b-card-text class="text-left mt-3 mb-0 mb-lg-3" v-if="post.content">
         {{ this.post.content }}
       </b-card-text>
@@ -114,8 +111,9 @@
 </template>
 
 <script>
+
 import { apiClient } from '../services/ApiClient'
-import router from '../router/index'
+//import router from '../router/index'
 import EditPost from '../components/EditPost'
 import ProfileImage from './ProfileImage'
 import CommentsList from '../components/CommentsList'
@@ -129,16 +127,24 @@ export default {
     CommentsList,
     LikesList
   },
-  props: ['post'],
-  async mounted () {
-    const res = await apiClient.get(`api/posts/${this.post.id}/likes`)
-    this.likesThisPost = res.like
-    console.log(this.post);
-  },
+  props: [
+    'post'
+    /*'customClass',
+    'classCollapse',
+    'isAdmin',
+    'isCreator',
+    'elementId',
+    'modifyText',
+    'deleteText',
+    'editingPost'*/
+  ],
+
   data () {
     return {
+      userData: JSON.parse(localStorage.getItem('userData')),
       likesThisPost: false,
-      likesCount: this.post.likesCount
+      likesCount: this.post.likesCount,
+      isEditing: false
     }
   },
   methods: {
@@ -152,9 +158,48 @@ export default {
       this.likesThisPost = res.like
     },
 
+    async mounted () {
+      const res = await apiClient.get(`api/posts/${this.post.id}/likes`)
+      this.likesThisPost = res.like
+      console.log(this.post);
+    },
+
     focusInput () {
       document.getElementById(`comment-area-${this.post.id}`).focus()
     }
+
+    /*toggleActions () {
+      this.areActionsVisible = !this.areActionsVisible
+    },
+
+    async onDelete () {
+      const res = await apiClient.delete(
+        `api/posts/${this.post.id}`
+      )
+      this.$emit('commentDeleted', this.post)
+      this.displayNotification('Post deleted!')
+    },
+
+    startEditing () {
+      this.isEditing = true
+      setTimeout(() => {
+        this.$refs.inputContent.focus()
+      }, 30)
+    },
+    newline () {
+      this.post.content = `${this.post.content}\n`
+    },
+
+    async modifyPost () {
+      const res = await apiClient.put(
+        `api/posts/${this.post.id}`,
+        { content: this.post.content }
+      )
+      this.post.updatedAt = res.post.updatedAt
+      this.isEditing = false
+      this.displayNotification('Post edited!')
+    }*/
+
   }
 }
 </script>

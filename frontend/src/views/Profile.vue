@@ -122,7 +122,7 @@
       </b-col>
     </b-row>
 
-    <PostsList :userId="userData.id" />
+    <PostsList :userId="userData.userId" />
   </div>
 </template>
 
@@ -145,15 +145,18 @@ export default {
     const userData = JSON.parse(localStorage.getItem('userData'))
     return {
       userData,
+      content: '',
       input: {
         firstName: userData.firstName,
         lastName: userData.lastName,
-        email: userData.email
+        email: userData.email,
+        imageUrl: userData.imageUrl
       },
       selectedFile: null,
       url: null
     }
   },
+
   methods: {
     onFileSelected () {
       this.url = URL.createObjectURL(event.target.files[0])
@@ -180,7 +183,7 @@ export default {
         this.userData = res.user
         window.location.reload()
       })
-    }
+    },
   },
   computed: {
     emptyInput () {

@@ -6,12 +6,12 @@
       :isAdmin="userData.admin"
       @onDelete="onDelete"
       :elementId="post.id"
-      modifyText="Edit post"
-      deleteText="Delete post"
+      modifyText="Edit Post"
+      deleteText="Delete Post"
     >
       <b-modal
         :id="`modal-${post.id}`"
-        title="Edit post"
+        title="Edit Post"
         ok-title="Save"
         ok-variant="light"
         @ok="onUpload"
@@ -19,7 +19,7 @@
       >
         <b-form>
           <PostForm
-            :imageUrl="post.imageUrl"
+            :imgUrl="post.imageUrl"
             @onFileSelected="onFileSelected"
             v-model="content"
           />
@@ -47,6 +47,7 @@ export default {
       content: this.post.content,
       userData: JSON.parse(localStorage.getItem('userData')),
       selectedFile: null
+      //areActionsVisible: false
     }
   },
   methods: {
@@ -57,6 +58,7 @@ export default {
     },
 
     async onDelete () {
+      //this.$emit('onDelete')
       await this.deletePost(this.post.id)
       this.displayNotification('Post deleted!')
     },
@@ -68,17 +70,22 @@ export default {
     async onUpload () {
       if (!this.content.trim().length) return
       await this.modifyPost({
-        post_id: this.post.id,
+        postId: this.post.id,
         selectedFile: this.selectedFile,
         content: this.content
       })
-      this.displayNotification('Post deleted!')
+      this.displayNotification('Post updated!')
     }
+
+    /*async clickedEditButton () {
+      this.$emit('clickedEditButton')
+    }*/
   }
 }
 </script>
 
 <style lang="scss">
+
 .modal-body {
   padding: 1rem 1rem 0 1rem;
 }

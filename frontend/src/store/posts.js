@@ -97,33 +97,67 @@ export default {
       if (isFormData) {
         const formData = new FormData()
         formData.append('image', selectedFile)
-        formData.append('post', JSON.stringify(body))
-        body = formData
-      }
+        formData.append('post', JSON.stringify({
+          content: content
+        }));
+        body = formData;
 
-      apiClient
-        .put('api/posts/' + postId, body, { isFormData })
+      return apiClient
+        //.put('api/posts/' + postId, body, { isFormData })
+        .put('api/posts/' + postId, body, {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*' ,
+            'Accept': 'application/json'
+          },true)
         .then(response => {
+          console.log("Test update post");
           commit('UPDATE_ONE_POST', response.post)
         })
-    },
+        .catch((error) => {
+          commit('ERROR_MESSAGE', error)
+        })
+
+    }
+      return apiClient
+      .put('api/posts/' + postId, body)
+        .then(response => {
+          console.log("Testupdated post");
+          commit('UPDATE_ONE_POST', response.post)
+        })
+        .catch((error) => {
+          commit('ERROR_MESSAGE', error)
+        })
+      },
 
     createPost ({ commit }, { selectedFile, content }) {
-      let body = {
+      var body = {
         content: content
       }
       const isFormData = !!selectedFile
 
       if (isFormData) {
-        const formData = new FormData()
-        formData.append('image', selectedFile)
-        formData.append('post', JSON.stringify(body))
-        body = formData
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+        formData.append('post', JSON.stringify({
+          content: content
+        }));
+        body = formData;
+        return apiClient
+            .post('api/posts/', body,{
+              'Content-Type': 'multipart/form-data',
+              'Access-Control-Allow-Origin': '*' ,
+              'Accept': 'application/json'
+            },true)
+            .then(response => {
+              commit('CREATE_POST', response.post)
+            })
+            .catch((error) => {
+              commit('ERROR_MESSAGE', error)
+            })
       }
       return apiClient
         .post('api/posts/', body)
         .then(response => {
-          console.log("Test");
           commit('CREATE_POST', response.post)
         })
         .catch((error) => {

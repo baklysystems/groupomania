@@ -25,7 +25,7 @@ router.post('/:postId/likes', auth, likesCtrl.likeOnePost)
 router.get('/:postId/like', auth, likesCtrl.getLikeOnOnePost)
 router.get('/:postId/likes', auth, likesCtrl.getAllLikesOfOnePost)
 
-router.get('/notifications', auth, notificationsCtrl.getNotificationsOfOneUser)
-router.delete('/notifications/:id', auth, notificationsCtrl.deleteNotification)
+/*router.get('/', auth, notificationsCtrl.getNotificationsOfOneUser)
+router.delete('/:id', auth, notificationsCtrl.deleteNotification)*/
 
 module.exports = router

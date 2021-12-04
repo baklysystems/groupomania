@@ -25,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       senderUserId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
       content: DataTypes.TEXT,
-      viewed: DataTypes.BOOLEAN
+      viewed: DataTypes.BOOLEAN,
+      postId: DataTypes.INTEGER,
+      notificationsList: DataTypes.INTEGER,
+      notification: DataTypes.INTEGER
     },
     {
       sequelize,
