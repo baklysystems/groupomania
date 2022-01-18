@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
     readableCreatedAt () {
       return moment(this.createdAt)
-        .locale('fr')
+        .locale('en')
         .format('LL')
     }
   }

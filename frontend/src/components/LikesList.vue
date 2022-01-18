@@ -7,6 +7,7 @@
       class="like-btn d-flex align-items-center my-2 mt-lg-0 mb-lg-3 ml-2 text-left"
       aria-label="Show likes"
     >
+
       <div
         class="svg-container d-flex justify-content-center align-items-center"
       >
@@ -20,9 +21,9 @@
       <span class="likes-number ml-2">{{ likesCount }}</span>
     </button>
     <b-modal :id="`modal-likes-${post.id}`" :title="`${likesCount} Like`">
-      <div v-for="like in likesList" :key="like.id"><!--<div v-for="like in likesList">-->
+      <div v-for="likes in likesList" :key="likes.id"><!--<div v-for="like in likesList">-->
         <router-link
-          :to="{ name: 'UserProfile', params: { userId: likes.User.id } }"
+          :to="{ name: 'UserProfile', params: { userId: this.likes.User.userId } }"
           ><div class="d-flex align-items-center">
             <div class="d-flex text-center">
               <ProfileImage

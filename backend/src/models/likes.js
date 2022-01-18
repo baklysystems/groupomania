@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate (models) {
-      Likes.belongsTo(models.User, { foreignKey: 'userId' })
+      Likes.belongsTo(models.User, { foreignKey: 'userId',targetKey:'userId' })
       Likes.belongsTo(models.Post, { foreignKey: 'postId' })
     }
   }
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   )
 
-  Likes.afterCreate(async likes => {
+  Likes.afterCreate(async likes => {  
     const post = await likes.getPost()
     await post.update({
       likes: post.likes + 1
@@ -47,10 +47,10 @@ module.exports = (sequelize, DataTypes) => {
     const notification = await sequelize.models.Notification.create({
       content: `<b>${user.firstName} ${
         user.lastName
-      }</b> has liked your posted ${post.readableCreatedAt()}`,
+      }</b> has liked your post at ${post.readableCreatedAt()}`,
       recipientUserId: post.userId,
       postId: post.id,
-      senderUserId: user.id
+      senderUserId: user.userId
     })
   })
 

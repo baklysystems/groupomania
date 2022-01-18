@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 const db = require('../models')
-const { Post,User,Comments } = db.sequelize.models
+const { Post,User,Comments,Likes } = db.sequelize.models
 
 exports.createPost = async (req, res, next) => {
   let postObject = req.body
@@ -36,11 +36,12 @@ exports.getOnePost = (req, res, next) => {
 }
 
 exports.getAllPosts = (req, res, next) => {
+  //console.log("\n\n\n\n\nbackend:", res, "\n\n\n\n\n");
   const limit = 4
   const page = parseInt(req.query.page) || 1
-
+ 
   const options = {
-    include: [{ model: User }],
+    include: [{ model: User }, {model: Comments}, {model: Likes}],
     limit,
     offset: limit * (page - 1),
     order: [['createdAt', 'DESC']]

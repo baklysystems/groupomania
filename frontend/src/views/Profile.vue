@@ -158,31 +158,40 @@ export default {
   },
 
   methods: {
-    onFileSelected () {
+    onFileSelected (event) {
       this.url = URL.createObjectURL(event.target.files[0])
       this.selectedFile = event.target.files[0]
+      //check why event is crossed out so console.log(event.target.files[0]);
+      console.log(event.target.files[0]);
     },
 
     triggerInput () {
       this.$refs.fileUpload.click()
     },
 
-    editUser (event) {
-      let body = this.input
+    //editUser (event) {
+    editUser () {
+      //let body = this.input
+      var body = {
+        //content: content
+      }
 
       const isFormData = !!this.selectedFile
 
+      /*REVISE THIS 
       if (isFormData) {
         const formData = new FormData()
         formData.append('image', this.selectedFile)
-        formData.append('user', JSON.stringify(body))
+        formData.append('user', JSON.stringify({
+          //content: content
+          }));
         body = formData
       }
       apiClient.put('api/auth/edit', body, { isFormData }).then(res => {
         localStorage.setItem('userData', JSON.stringify(res.user))
         this.userData = res.user
         window.location.reload()
-      })
+      })*/
     },
   },
   computed: {

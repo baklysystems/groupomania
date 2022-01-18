@@ -13,7 +13,7 @@
       <b-icon icon="bell-fill"></b-icon>
     </button>
     <b-collapse
-      v-if="notificationsList"
+      v-if="notificationsList.length>0"
       id="notification-collapsed"
       v-bind:class="
         `collapsed mt-2 position-fixed ${areActionsVisible && 'visible'}`
@@ -26,13 +26,13 @@
             @click.native="deleteNotification(notification)"
           >
             <div class="d-flex align-items-center">
-              <div>
+             <!-- <div>
                 <ProfileImage
                   :src="notification.Sender.imageUrl"
                   customClass="like-profile-picture"
                   divCustomClass="div-like-picture"
                 />
-              </div>
+              </div>-->
               <p
                 v-html="notification.content"
                 class="card-text text-left py-2 mb-3"
@@ -74,14 +74,16 @@ export default {
     return {
       areActionsVisible: false,
       notificationsList: [],
-      message: ''
+      message: '',
+      userData: JSON.parse(localStorage.getItem('userData'))
     }
     
-  },/*
+  },
   async mounted () {
-    setTimeout(() => this.fetchNotifications(), 100)
-    this.interval = setInterval(() => this.fetchNotifications(), 10000)
-  },*/
+    setTimeout(() => this.getNotificationsOfOneUser(), 100)
+    this.interval = setInterval(() => this.getNotificationsOfOneUser(), 10000)
+  },
+
   destroyed () {
     clearInterval(this.interval)
   },
@@ -90,10 +92,12 @@ export default {
       this.areActionsVisible = !this.areActionsVisible
     },
     async getNotificationsOfOneUser () {
-      const res = await apiClient.get(`api/notifications`)
+      const res = await apiClient.get(`api/notifications/${this.userData.userId}`)
+      //console.log(this.userData.userId);
       this.notificationsList = res.notification
     },
     async deleteNotification (notificationToDelete) {
+      console.log("delete notification?",res);
       const res = await apiClient.delete(
         `api/notifications/${notificationToDelete.id}`
       )

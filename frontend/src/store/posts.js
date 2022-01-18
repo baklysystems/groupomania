@@ -47,14 +47,19 @@ export default {
     },
 
     fetchPosts ({ state, commit }, params = {}) {
+      //console.log(params);
       let userIdParams = ''
       if (params.userId) {
         userIdParams = `&userId=${params.userId}`
       }
 
+      //console.log(state.page, userIdParams);
+
       return apiClient
+        //.get(`api/posts?page=${state.page}&userId=48`)
         .get(`api/posts?page=${state.page}${userIdParams}`)
         .then(response => {
+          //console.log("response:", response);
           if (response.posts) {
             commit('UPDATE_POSTS_LIST', state.list.concat(response.posts))
           }
@@ -110,7 +115,7 @@ export default {
             'Accept': 'application/json'
           },true)
         .then(response => {
-          console.log("Test update post");
+          //console.log("Test update post");
           commit('UPDATE_ONE_POST', response.post)
         })
         .catch((error) => {
@@ -121,7 +126,7 @@ export default {
       return apiClient
       .put('api/posts/' + postId, body)
         .then(response => {
-          console.log("Testupdated post");
+          //console.log("Testupdated post");
           commit('UPDATE_ONE_POST', response.post)
         })
         .catch((error) => {

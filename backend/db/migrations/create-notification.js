@@ -11,6 +11,12 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
+      recipientUserId:{
+        type: Sequelize.INTEGER
+      },
+      senderUserId:{
+        type: Sequelize.INTEGER
+      },
       content: {
         type: Sequelize.TEXT
       },
@@ -24,6 +30,12 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      notificationsList:{
+        type: Sequelize.INTEGER
+      },
+      notification:{
+        type: Sequelize.INTEGER
       }
     });
   },

@@ -67,7 +67,7 @@ app.get('/api/users/:id', auth, userCtrl.getOneUser)
 app.get('/api/users', auth, userCtrl.getAllUsers)
 app.delete('/api/users/:id', auth, userCtrl.deleteUserAccount)
 
-app.get('/api/notifications', auth, notificationsCtrl.getNotificationsOfOneUser)
+app.get('/api/notifications/:id', auth, notificationsCtrl.getNotificationsOfOneUser)
 app.delete('/api/notifications/:id', auth, notificationsCtrl.deleteNotification)
 
 module.exports = app

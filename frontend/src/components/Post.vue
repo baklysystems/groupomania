@@ -31,7 +31,17 @@
           </p>
         </div>
       </div>
-      <EditPost :post="post" />
+
+      <EditButton
+          customClass="post-button"
+          classCollapse="post-btn-collapsed"
+          :isCreator="this.post.userId == userData.userId"
+          :isAdmin="userData.admin"
+          @clickedEditButton="startEditing"
+          @onDelete="onDelete"
+          modifyText="Edit"
+          deleteText="Delete"
+        />
      
       <b-card-text class="text-left mt-3 mb-0 mb-lg-3" v-if="post.content">
         {{ this.post.content }}
@@ -112,9 +122,11 @@
 
 <script>
 
+import { mapActions } from 'vuex'
 import { apiClient } from '../services/ApiClient'
-//import router from '../router/index'
+import router from '../router/index'
 import EditPost from '../components/EditPost'
+import EditButton from '../components/EditButton'
 import ProfileImage from './ProfileImage'
 import CommentsList from '../components/CommentsList'
 import LikesList from '../components/LikesList'
@@ -122,6 +134,7 @@ import LikesList from '../components/LikesList'
 export default {
   name: 'Post',
   components: {
+    EditButton,
     EditPost,
     ProfileImage,
     CommentsList,
@@ -129,21 +142,14 @@ export default {
   },
   props: [
     'post'
-    /*'customClass',
-    'classCollapse',
-    'isAdmin',
-    'isCreator',
-    'elementId',
-    'modifyText',
-    'deleteText',
-    'editingPost'*/
   ],
 
   data () {
+    //console.log("please work", this.post);
     return {
       userData: JSON.parse(localStorage.getItem('userData')),
       likesThisPost: false,
-      likesCount: this.post.likesCount,
+      likesCount: this.post.Likes.length,
       isEditing: false
     }
   },
@@ -151,24 +157,31 @@ export default {
     async likeOrUnlikePost () {
       const res = await apiClient.post(`api/posts/${this.post.id}/likes`)
 
+      //console.log("What is the response?", res.like);
+
       if (res.like !== this.likesThisPost) {
+
+        this.post.likesCount += res.like ? 1 : -1
         this.likesCount += res.like ? 1 : -1
       }
 
       this.likesThisPost = res.like
+      //window.location.reload()
     },
 
-    async mounted () {
+    ...mapActions(['displayNotification']),
+
+    async mounted () { /*when the page loads*/
       const res = await apiClient.get(`api/posts/${this.post.id}/likes`)
       this.likesThisPost = res.like
-      console.log(this.post);
+      //console.log(this.post);
     },
 
     focusInput () {
-      document.getElementById(`comment-area-${this.post.id}`).focus()
-    }
+      document.getElementById(`post-area-${this.post.id}`).focus()
+    },
 
-    /*toggleActions () {
+    toggleActions () {
       this.areActionsVisible = !this.areActionsVisible
     },
 
@@ -176,13 +189,16 @@ export default {
       const res = await apiClient.delete(
         `api/posts/${this.post.id}`
       )
-      this.$emit('commentDeleted', this.post)
+      this.$emit('PostDeleted', this.post)
       this.displayNotification('Post deleted!')
+
+      window.location.reload()
     },
 
     startEditing () {
       this.isEditing = true
       setTimeout(() => {
+        //console.log(this.$refs);
         this.$refs.inputContent.focus()
       }, 30)
     },
@@ -198,7 +214,7 @@ export default {
       this.post.updatedAt = res.post.updatedAt
       this.isEditing = false
       this.displayNotification('Post edited!')
-    }*/
+    }
 
   }
 }
