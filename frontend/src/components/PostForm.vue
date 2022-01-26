@@ -110,7 +110,7 @@ export default {
   methods: {
     onFileSelected (event) {
       this.url = URL.createObjectURL(event.target.files[0])
-      //console.log (event.target.files[0]);
+      console.log (event);
       this.$emit('onFileSelected', event.target.files[0])
     },
     updateValue (value) {

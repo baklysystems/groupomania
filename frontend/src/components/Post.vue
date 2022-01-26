@@ -6,7 +6,7 @@
       <div class="d-flex align-items-center">
         <div class="d-flex mr-3">
           <router-link
-            :to="{ name: 'UserProfile', params: { userId: this.post.userId } }"
+            :to="{ name: 'OtherProfile', params: { userId: this.post.userId } }"
           >
           <ProfileImage
             :src="this.post.User.imageUrl"

@@ -56,6 +56,14 @@ const routes = [
     meta: {
       middleware: auth
     }
+  },
+  {
+    path: '/profile/:userId',
+    name: 'OtherProfile',
+    component: () => import('../views/OtherProfile.vue'),
+    meta: {
+      middleware: auth
+    }
   }
 ]
 

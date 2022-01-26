@@ -132,6 +132,7 @@ import ProfileImage from '../components/ProfileImage'
 import PostsList from '../components/PostsList'
 import Menu from '../components/Menu'
 import UserDeleteAccount from '../components/UserDeleteAccount'
+import { format } from 'prettier'
 
 export default {
   name: 'Profile',
@@ -162,7 +163,7 @@ export default {
       this.url = URL.createObjectURL(event.target.files[0])
       this.selectedFile = event.target.files[0]
       //check why event is crossed out so console.log(event.target.files[0]);
-      console.log(event.target.files[0]);
+      console.log("try events", event.target.files[0]);
     },
 
     triggerInput () {
@@ -171,28 +172,29 @@ export default {
 
     //editUser (event) {
     editUser () {
-      //let body = this.input
-      var body = {
-        //content: content
-      }
-
+      
+      let body = this.input
+      
+      //console.log("uhh", this.input);
+      
       const isFormData = !!this.selectedFile
-
-      /*REVISE THIS 
+      /*REVISE THIS -194*/
       if (isFormData) {
         const formData = new FormData()
         formData.append('image', this.selectedFile)
-        formData.append('user', JSON.stringify({
-          //content: content
-          }));
-        body = formData
-      }
-      apiClient.put('api/auth/edit', body, { isFormData }).then(res => {
+        formData.append('user', JSON.stringify(body))
+        body = formData;
+
+      apiClient.put('api/auth/edit', body, { isFormData })
+      .then(res => {
+
+        //console.log("uhh", res.user);
         localStorage.setItem('userData', JSON.stringify(res.user))
         this.userData = res.user
-        window.location.reload()
-      })*/
-    },
+        //window.location.reload()
+      })
+      }
+    }
   },
   computed: {
     emptyInput () {

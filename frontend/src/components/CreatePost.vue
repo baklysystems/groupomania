@@ -34,14 +34,14 @@ export default {
 
 
     onFileSelected (file) { //define new method should have an argument called file
-      console.log("Hello");
-      console.log(file);
+      //console.log("Hello");
+      //console.log(file);
       let body = this.input
       
-      const isFormData = !!this.selectedFile
+      //const isFormData = !!this.selectedFile
       this.selectedFile = file //single equal assignment , == comparison 
         
-        if (isFormData) {
+        if (this.selectedFile) {
           const formData = new FormData()
           formData.append('image', this.file)
           formData.append('user', JSON.stringify(body))

@@ -39,6 +39,7 @@ exports.login = async (req, res, next) => {
 
 exports.editUser = (req, res, next) => {
 
+  console.log("backend wisdom", req.file);
   try {
     const userObject = req.file
       ? {
