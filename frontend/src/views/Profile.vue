@@ -122,7 +122,7 @@
       </b-col>
     </b-row>
 
-    <PostsList :userId="userData.id" />
+    <PostsList :userId="userData.userId" />
   </div>
 </template>
 
